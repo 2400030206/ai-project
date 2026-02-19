@@ -1,0 +1,340 @@
+.flashcards-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.flashcards-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.flashcards-header h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.flashcards-subtitle {
+  color: #6b7280;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.flashcards-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Setup Section */
+.flashcards-setup {
+  padding: 40px;
+  text-align: center;
+}
+
+.setup-group {
+  margin-bottom: 30px;
+}
+
+.setup-group label {
+  display: block;
+  margin-bottom: 10px;
+  color: #374151;
+  font-size: 16px;
+}
+
+.setup-group input {
+  width: 100%;
+  max-width: 200px;
+  padding: 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.setup-group input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.flashcards-features {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.flashcards-features h4 {
+  color: #374151;
+  margin-bottom: 15px;
+}
+
+.flashcards-features ul {
+  list-style: none;
+  padding: 0;
+}
+
+.flashcards-features li {
+  padding: 8px 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Progress */
+.flashcard-progress {
+  margin-bottom: 30px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Flashcard Viewer */
+.flashcard-viewer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  margin-bottom: 30px;
+  perspective: 1000px;
+}
+
+.flashcard {
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  cursor: pointer;
+}
+
+.flashcard.flipped {
+  transform: rotateY(180deg);
+}
+
+.flashcard-front,
+.flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 3px solid #e5e7eb;
+}
+
+.flashcard-front {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.flashcard-back {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  transform: rotateY(180deg);
+}
+
+.card-label {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.8;
+}
+
+.card-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.card-content p {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.card-hint {
+  position: absolute;
+  bottom: 20px;
+  font-size: 14px;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+/* Navigation */
+.flashcard-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.completion-message {
+  text-align: center;
+  padding: 20px;
+  background: #f0fdf4;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+.completion-message p {
+  color: #15803d;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* All Cards Grid View */
+.flashcards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.flashcard-mini {
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.flashcard-mini:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.mini-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.mini-number {
+  font-weight: 700;
+  color: #6366f1;
+  font-size: 14px;
+}
+
+.mini-question {
+  margin-bottom: 15px;
+  padding: 15px;
+  background: #ede9fe;
+  border-radius: 8px;
+}
+
+.mini-question strong {
+  color: #6366f1;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.mini-answer {
+  padding: 15px;
+  background: #fee2e2;
+  border-radius: 8px;
+}
+
+.mini-answer strong {
+  color: #dc2626;
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .flashcards-container {
+    padding: 15px;
+  }
+
+  .flashcards-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .flashcards-actions {
+    width: 100%;
+  }
+
+  .flashcard {
+    height: 350px;
+  }
+
+  .card-content p {
+    font-size: 18px;
+  }
+
+  .flashcards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flashcard-navigation {
+    flex-direction: column;
+  }
+
+  .flashcard-navigation button {
+    width: 100%;
+  }
+}
+
+/* Animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.flashcard-mini {
+  animation: slideIn 0.3s ease forwards;
+}
