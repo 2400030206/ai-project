@@ -81,7 +81,42 @@ export async function generateRevisionNotes(content) {
   if (!response.ok) throw new Error("Revision notes generation failed");
   return response.json();
 }
+// Smart Summary
+export async function generateSmartSummary(content, type = "concise", language = "en") {
+  const response = await fetch(`${API_BASE_URL}/summary/generate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content, type, language }),
+  });
+  if (!response.ok) throw new Error("Summary generation failed");
+  return response.json();
+}
 
+// Video Management
+export async function getVideos(language = "en") {
+  const response = await fetch(`${API_BASE_URL}/videos?language=${language}`, {
+    method: "GET",
+  });
+  if (!response.ok) throw new Error("Failed to fetch videos");
+  return response.json();
+}
+
+export async function uploadVideo(formData) {
+  const response = await fetch(`${API_BASE_URL}/videos/upload`, {
+    method: "POST",
+    body: formData,
+  });
+  if (!response.ok) throw new Error("Video upload failed");
+  return response.json();
+}
+
+export async function deleteVideo(videoId) {
+  const response = await fetch(`${API_BASE_URL}/videos/${videoId}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) throw new Error("Video deletion failed");
+  return response.json();
+}
 // Exam Mode
 export async function startExam(title, duration, questionCount, content) {
   const response = await fetch(`${API_BASE_URL}/exam/start`, {
@@ -123,17 +158,6 @@ export async function generateFlashcards(content, count = 10, language = "en") {
   return response.json();
 }
 
-// Smart Summary
-export async function generateSmartSummary(content, type = "concise", language = "en") {
-  const response = await fetch(`${API_BASE_URL}/summary/generate`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ content, type, language }),
-  });
-  if (!response.ok) throw new Error("Summary generation failed");
-  return response.json();
-}
-
 // Important Exam Questions
 export async function generateExamQuestions(
   content,
@@ -159,64 +183,6 @@ export async function askQuestion(message, topic = "general", difficulty = "inte
   });
   if (!response.ok) throw new Error("Chat request failed");
   return response.json();
-}
-// Video Management
-export async function uploadVideo(formData) {
-  const response = await fetch(`${API_BASE_URL}/videos/upload`, {
-    method: "POST",
-    body: formData,
-  });
-  if (!response.ok) throw new Error("Video upload failed");
-  return response.json();
-}
-
-export async function getAllVideos() {
-  const response = await fetch(`${API_BASE_URL}/videos`, {
-    method: "GET",
-  });
-  if (!response.ok) throw new Error("Failed to fetch videos");
-  return response.json();
-}
-
-export async function getVideo(videoId) {
-  const response = await fetch(`${API_BASE_URL}/videos/${videoId}`, {
-    method: "GET",
-  });
-  if (!response.ok) throw new Error("Failed to fetch video");
-  return response.json();
-}
-
-export async function getVideosByLanguage(language) {
-  const response = await fetch(`${API_BASE_URL}/videos/language/${language}`, {
-    method: "GET",
-  });
-  if (!response.ok) throw new Error("Failed to fetch videos by language");
-  return response.json();
-}
-
-export async function updateVideoDetails(videoId, title, description) {
-  const response = await fetch(`${API_BASE_URL}/videos/${videoId}?title=${title}&description=${description}`, {
-    method: "PUT",
-  });
-  if (!response.ok) throw new Error("Failed to update video");
-  return response.json();
-}
-
-export async function deleteVideo(videoId) {
-  const response = await fetch(`${API_BASE_URL}/videos/${videoId}`, {
-    method: "DELETE",
-  });
-  if (!response.ok) throw new Error("Failed to delete video");
-  return response.json();
-}
-
-export async function getStorageStats() {
-  const total = await fetch(`${API_BASE_URL}/videos/storage/total`);
-  const available = await fetch(`${API_BASE_URL}/videos/storage/available`);
-  return {
-    total: await total.json(),
-    available: await available.json(),
-  };
 }
 
 // Localization
