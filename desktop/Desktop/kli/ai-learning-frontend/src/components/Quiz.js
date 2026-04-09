@@ -13,6 +13,7 @@ const Quiz = ({ content, onQuizComplete }) => {
   const [results, setResults] = useState(null);
   const [quizType, setQuizType] = useState("mcq");
   const [questionCount, setQuestionCount] = useState(5);
+  const [visibleAnswers, setVisibleAnswers] = useState({});
 
   const { learningMode, language } = useContext(AppContext);
 
@@ -88,6 +89,14 @@ const Quiz = ({ content, onQuizComplete }) => {
     setCurrentQuestionIndex(0);
     setSubmitted(false);
     setResults(null);
+    setVisibleAnswers({});
+  };
+
+  const toggleAnswerVisibility = (questionId) => {
+    setVisibleAnswers((prev) => ({
+      ...prev,
+      [questionId]: !prev[questionId],
+    }));
   };
 
   if (questions.length === 0 && !submitted) {
@@ -189,34 +198,90 @@ const Quiz = ({ content, onQuizComplete }) => {
           </div>
 
           <div className="results-breakdown">
-            <h4>Answers Review:</h4>
+            <h4>📚 Detailed Answers Review:</h4>
             {questions.map((question, idx) => {
               const answeredCorrectly =
                 answers[question.id] === question.correctAnswer;
               return (
                 <div
                   key={question.id}
-                  className={`review-item ${answeredCorrectly ? "correct" : "incorrect"}`}
+                  className={`review-item detailed-answer ${answeredCorrectly ? "correct" : "incorrect"}`}
                 >
-                  <div className="review-question">
-                    <span className={`review-icon ${answeredCorrectly ? "" : ""}`}>
-                      {answeredCorrectly ? "✅" : "❌"}
+                  <div className="question-header">
+                    <div className="question-title">
+                      <span className={`question-number Q${idx + 1}`}>Q{idx + 1}</span>
+                      <span className="question-text">{question.question}</span>
+                    </div>
+                    <span className="marks-badge">
+                      {question.marks || "6"} Marks
                     </span>
-                    <span>Q{idx + 1}: {question.question}</span>
                   </div>
-                  <div className="review-answers">
-                    <p>
-                      <strong>Your answer:</strong> {answers[question.id]}
-                    </p>
-                    {!answeredCorrectly && (
-                      <p>
-                        <strong>Correct answer:</strong> {question.correctAnswer}
-                      </p>
-                    )}
-                    {question.explanation && (
-                      <p className="review-explanation">
-                        <strong>Explanation:</strong> {question.explanation}
-                      </p>
+
+                  <div className="answer-content">
+                    <div className="show-answer-toggle">
+                      <button 
+                        className="toggle-btn"
+                        onClick={() => toggleAnswerVisibility(question.id)}
+                      >
+                        {visibleAnswers[question.id] ? "🔽" : "💡"} {visibleAnswers[question.id] ? "Hide" : "Show"} Answer
+                      </button>
+                    </div>
+
+                    {visibleAnswers[question.id] && (
+                    <div className="answer-section">
+                      <div className="answer-box">
+                        <h5>✓ Answer:</h5>
+                        {question.structuredAnswer ? (
+                          <ol className="structured-answer">
+                            {question.structuredAnswer.map((point, i) => (
+                              <li key={i} className="answer-point">
+                                <strong>{point.heading}</strong>
+                                <span className="point-marks">({point.marks || "1"} mark)</span>
+                                <p>{point.content}</p>
+                              </li>
+                            ))}
+                          </ol>
+                        ) : (
+                          <p>{question.correctAnswer}</p>
+                        )}
+                      </div>
+
+                      {question.diagram && (
+                        <div className="diagram-section">
+                          <h5>📊 Diagram:</h5>
+                          <div className="diagram-box">
+                            {question.diagram.image ? (
+                              <img src={question.diagram.image} alt="Answer Diagram" />
+                            ) : (
+                              <div className="diagram-placeholder">
+                                <pre>{question.diagram.text || "Diagram not available"}</pre>
+                              </div>
+                            )}
+                          </div>
+                          {question.diagram.description && (
+                            <p className="diagram-description">
+                              <em>📝 Diagram Description: {question.diagram.description}</em>
+                            </p>
+                          )}
+                        </div>
+                      )}
+
+                      {question.explanation && (
+                        <div className="explanation-section">
+                          <h5>💭 Explanation:</h5>
+                          <p className="explanation-text">{question.explanation}</p>
+                        </div>
+                      )}
+
+                      <div className="user-answer">
+                        <p>
+                          <strong>Your answer:</strong> {answers[question.id]}
+                        </p>
+                        <span className={`status-badge ${answeredCorrectly ? "correct" : "incorrect"}`}>
+                          {answeredCorrectly ? "✅ Correct" : "❌ Incorrect"}
+                        </span>
+                      </div>
+                    </div>
                     )}
                   </div>
                 </div>
